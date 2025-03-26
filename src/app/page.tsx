@@ -1,103 +1,107 @@
+"use client";
+
+import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
+    <div className="max-w-7xl mx-auto px-6 lg:px-12 font-sans text-gray-900 space-y-20">
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+        className="flex flex-col items-center text-center py-20 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-lg"
+      >
+        <h1 className="text-5xl font-extrabold">Bagas Dhitya Taufiqqi</h1>
+        <h2 className="text-2xl mt-2">Full-Stack Web Developer</h2>
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/avatar.jpg"
+          alt="Profile"
+          width={160}
+          height={160}
+          className="mt-6 rounded-full border-4 border-white shadow-md"
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+        <p className="mt-4 max-w-lg text-lg">
+          Building scalable and high-performance web solutions for your business needs.
+        </p>
+        <button className="mt-6 px-8 py-3 bg-white text-blue-600 font-semibold rounded-full shadow-md hover:bg-gray-100">
+          View Portfolio
+        </button>
+      </motion.section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <motion.section initial="hidden" whileInView="visible" variants={sectionVariants} viewport={{ once: true }} className="py-20 text-center">
+        <h2 className="text-4xl font-bold">About Me</h2>
+        <p className="mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
+          I am a passionate web developer with experience in building scalable applications.
+          I specialize in JavaScript, React, and backend development.
+        </p>
+      </motion.section>
+
+      <motion.section initial="hidden" whileInView="visible" variants={sectionVariants} viewport={{ once: true }} className="py-20 bg-gray-100 text-center rounded-lg shadow-md">
+        <h2 className="text-4xl font-bold">Skills</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 max-w-5xl mx-auto">
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Front-End</h3>
+            <p className="mt-2 text-gray-600">HTML, CSS, JavaScript, React, Angular</p>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Back-End</h3>
+            <p className="mt-2 text-gray-600">Node.js, Express, Django, Ruby on Rails</p>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">DevOps & Tools</h3>
+            <p className="mt-2 text-gray-600">Docker, Git, AWS, CI/CD</p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </motion.section>
+
+      <motion.section initial="hidden" whileInView="visible" variants={sectionVariants} viewport={{ once: true }} className="py-20 text-center">
+        <h2 className="text-4xl font-bold">Portfolio</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 max-w-5xl mx-auto">
+          {[1, 2, 3, 4, 5, 6].map((project) => (
+            <div key={project} className="p-6 bg-white rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold">Project {project}</h3>
+              <p className="mt-2 text-gray-600">Description of project {project}.</p>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      <motion.section initial="hidden" whileInView="visible" variants={sectionVariants} viewport={{ once: true }} className="py-20 bg-gray-100 text-center rounded-lg shadow-md">
+        <h2 className="text-4xl font-bold">Alumni Success Stories</h2>
+        <Swiper
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          modules={[Autoplay, Pagination]}
+          className="mt-6 max-w-3xl mx-auto"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          {["Alumni 1", "Alumni 2", "Alumni 3"].map((alumni, index) => (
+            <SwiperSlide key={index} className="p-6 bg-white rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold">{alumni}</h3>
+              <p className="mt-2 text-gray-600">This is the success story of {alumni}.</p>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </motion.section>
+
+      <motion.section initial="hidden" whileInView="visible" variants={sectionVariants} viewport={{ once: true }} className="py-20 text-center bg-gray-200 rounded-lg shadow-md">
+        <h2 className="text-4xl font-bold">Contact Me</h2>
+        <p className="mt-4 text-lg">Feel free to reach out:</p>
+        <div className="mt-6 space-y-2">
+          <p className="text-lg">📧 Email: bagasdhityataufiqqi98@gmail.com</p>
+          <p className="text-lg">🔗 LinkedIn: <a href="https://www.linkedin.com/in/bagasdhityataufiqqi/" className="text-blue-600 hover:underline">Bagas Dhitya Taufiqqi</a></p>
+        </div>
+      </motion.section>
     </div>
   );
 }
