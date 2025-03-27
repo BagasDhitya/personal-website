@@ -1,4 +1,4 @@
-import { ApiService } from "@/app/utils/apiService";
+import { ApiService } from "@/utils/apiService";
 
 export async function GET() {
     const apiService = new ApiService()
