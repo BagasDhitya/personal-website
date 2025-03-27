@@ -11,14 +11,14 @@ const alumniStories = [
 
 async function getContent() {
   const personalContentUrl = process.env.NEXT_PUBLIC_PERSONAL_WEBSITE_CONTENT as string
-  const response = await fetch(personalContentUrl + '/HeroSection')
-  return response.json()
+  const response = await axios.get(personalContentUrl + '/HeroSection')
+  return response
 }
 
 export default async function Home() {
 
-  const response = await getContent()
-  console.log(response)
+  // const response = await getContent()
+  // console.log(response)
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-12 font-sans text-gray-900 space-y-20">
