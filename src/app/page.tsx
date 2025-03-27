@@ -1,7 +1,10 @@
 import Image from "next/image";
-import axios from "axios";
+import Link from "next/link";
+import { blogs } from "@/data/blog";
+
 import AnimatedSection from "@/components/AnimatedSection";
 import AlumniSwiper from "@/components/AlumniSwiper";
+import BlogCard from "@/components/BlogCard";
 
 const alumniStories = [
   { name: "Alumni 1", story: "This is the success story of Alumni 1." },
@@ -9,17 +12,7 @@ const alumniStories = [
   { name: "Alumni 3", story: "This is the success story of Alumni 3." },
 ];
 
-async function getContent() {
-  const personalContentUrl = process.env.NEXT_PUBLIC_PERSONAL_WEBSITE_CONTENT as string
-  const response = await axios.get(personalContentUrl + '/HeroSection')
-  return response
-}
-
 export default async function Home() {
-
-  // const response = await getContent()
-  // console.log(response)
-
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-12 font-sans text-gray-900 space-y-20">
       <AnimatedSection className="flex flex-col items-center text-center py-20 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-lg">
@@ -76,6 +69,21 @@ export default async function Home() {
             </div>
           ))}
         </div>
+      </AnimatedSection>
+
+      <AnimatedSection className="py-20 text-center">
+        <h2 className="text-4xl font-bold">Latest Blog Posts</h2>
+        <p className="text-lg mt-2 text-gray-600">Stay updated with the latest insights and tutorials.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+          {blogs.map((blog, key) => (
+            <BlogCard key={key} {...blog} />
+          ))}
+        </div>
+        <Link href="/blog">
+          <button className="mt-8 px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700">
+            View All Blogs
+          </button>
+        </Link>
       </AnimatedSection>
 
       <AnimatedSection className="py-20 bg-gray-100 text-center rounded-lg shadow-md">
