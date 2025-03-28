@@ -98,11 +98,12 @@ export default async function Home() {
             <p className="text-center mt-6">No articles found.</p>
           )}
         </div>
-        <Link href="/blogs">
-          <button className="mt-8 px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700">
+        <div className="mt-20">
+          <Link className="cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700" href="/blogs">
             View All Blogs
-          </button>
-        </Link>
+          </Link>
+        </div>
+
       </AnimatedSection>
 
       <AnimatedSection className="py-20 bg-gray-100 text-center rounded-lg shadow-md">
