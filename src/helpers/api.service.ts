@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Blog } from "@/utils/types";
+import { Blog, Alumni } from "@/utils/types";
 
 export class ApiService {
     private api: AxiosInstance;
@@ -11,10 +11,14 @@ export class ApiService {
         });
     }
 
-    async fetchBlogs(limit: number = 3): Promise<Blog[]> {
+    async fetchBlogs(limit: number, search?: string, category?: string): Promise<Blog[]> {
         try {
             const response = await this.api.get<Blog[]>("/blogs", {
-                params: { limit },
+                params: { 
+                    limit,
+                    ...(search ? { search } : {}), 
+                    ...(category ? { category } : {})
+                },
             });
             return response.data;
         } catch {
@@ -22,9 +26,9 @@ export class ApiService {
         }
     }
 
-    async fetchAlumniStories(): Promise<{ name: string; story: string }[]> {
+    async fetchAlumniStories(): Promise<Alumni[]> {
         try {
-            const response = await this.api.get<{ name: string; story: string }[]>("/alumni");
+            const response = await this.api.get<Alumni[]>("/alumni");
             return response.data;
         } catch {
             return [];

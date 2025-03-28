@@ -1,16 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Blog } from "@/utils/types";
 
-interface BlogCardProps {
-    id: number;
-    slugs: string;
-    title: string;
-    description: string;
-    image: string;
-    date: String;
-}
-
-export default function BlogCard({ id, slugs, title, description, image }: BlogCardProps) {
+export default function BlogCard({ id, slugs, title, description, image }: Blog) {
     return (
         <div id={String(id)} className="bg-white rounded-lg shadow-md p-6">
             <Image src={image} alt={title} width={600} height={400} className="rounded-lg h-40" objectFit="cover" />

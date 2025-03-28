@@ -1,15 +1,21 @@
-export type Blog = {
+export interface Blog {
     id: number;
+    slugs: string;
     title: string;
-    category: string;
     description: string;
     image: string;
     date: string;
-    content: string;
-    slugs: string;
-};
+    category: string
+}
 
-export type CategoriesProps = {
+export interface Alumni {
+    id: number;
+    name: string;
+    story: string;
+    imageUrl: string;
+}
+
+export interface CategoriesProps {
     categories: string[];
     selectedCategory: string;
 };

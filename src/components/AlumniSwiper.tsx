@@ -1,18 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-interface AlumniStory {
-    name: string;
-    story: string;
-}
+import { Alumni } from "@/utils/types";
+
 
 interface AlumniSwiperProps {
-    alumniStories: AlumniStory[];
+    alumniStories: Alumni[];
 }
 
 export default function AlumniSwiper({ alumniStories }: AlumniSwiperProps) {
@@ -26,9 +25,10 @@ export default function AlumniSwiper({ alumniStories }: AlumniSwiperProps) {
             navigation
             className="w-full max-w-3xl mx-auto"
         >
-            {alumniStories.map((alumni, index) => (
-                <SwiperSlide key={index} className="flex justify-center">
-                    <div className="p-6 bg-white rounded-lg shadow-md text-center w-full">
+            {alumniStories.map((alumni: Alumni, key: number) => (
+                <SwiperSlide key={key} className="flex justify-center">
+                    <div id={String(alumni.id)} className="p-6 bg-white rounded-lg shadow-md text-center w-full">
+                        <Image src={alumni.imageUrl} alt={alumni.name} width={600} height={400} className="rounded-lg h-40" objectFit="cover" />
                         <h3 className="text-xl font-semibold">{alumni.name}</h3>
                         <p className="mt-2 text-gray-600">{alumni.story}</p>
                     </div>
