@@ -16,7 +16,7 @@ export default function BlogCard({ id, slugs, title, description, image }: BlogC
             <Image src={image} alt={title} width={600} height={400} className="rounded-lg" />
             <h3 className="text-xl font-semibold mt-4">{title}</h3>
             <p className="text-gray-600 mt-2">{description}</p>
-            <Link href={`/blog/${slugs}`} className="text-blue-600 font-semibold mt-4 block hover:underline">
+            <Link href={`/blogs/${slugs}`} className="text-blue-600 font-semibold mt-4 block hover:underline">
                 Read More →
             </Link>
         </div>
