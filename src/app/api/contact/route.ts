@@ -1,6 +1,6 @@
-import { ApiService } from "@/utils/apiService";
+import { BackendlessService } from "@/helpers/backendless.service";
 
 export async function GET() {
-    const apiService = new ApiService()
+    const apiService = new BackendlessService()
     return apiService.fetchData("Contact");
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-export class ApiService {
+export class BackendlessService {
     private baseUrl = process.env.NEXT_PUBLIC_PERSONAL_WEBSITE_CONTENT as string;
 
     public async fetchData(endpoint: string) {

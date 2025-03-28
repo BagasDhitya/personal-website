@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import axios from "axios";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -13,8 +12,6 @@ export const metadata: Metadata = {
   title: "Bagas Dhitya Taufiqqi - Full-Stack Web Developer & Tech Enthusiast",
   description: "Explore my portfolio, projects, and technical insights in web development. Let's build something amazing together!",
 };
-
-axios.defaults.baseURL = 'http://localhost:3000/'
 
 export default function RootLayout({
   children,

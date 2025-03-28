@@ -8,12 +8,6 @@ import AnimatedSection from "@/components/AnimatedSection";
 import AlumniSwiper from "@/components/AlumniSwiper";
 import BlogCard from "@/components/BlogCard";
 
-const alumniStories = [
-  { name: "Alumni 1", story: "This is the success story of Alumni 1." },
-  { name: "Alumni 2", story: "This is the success story of Alumni 2." },
-  { name: "Alumni 3", story: "This is the success story of Alumni 3." },
-];
-
 async function fetchBlogs(): Promise<Blog[]> {
   try {
     const response = await axios.get<Blog[]>("api/blogs", {
@@ -25,10 +19,18 @@ async function fetchBlogs(): Promise<Blog[]> {
   }
 }
 
+async function fetchAlumniStories(): Promise<{ name: string; story: string }[]> {
+  try {
+    const response = await axios.get("api/alumni-stories");
+    return response.data;
+  } catch {
+    return [];
+  }
+}
 
 export default async function Home() {
-
-  const blogs = await fetchBlogs();
+  // Fetch blogs and alumni stories simultaneously
+  const [blogs, alumniStories] = await Promise.all([fetchBlogs(), fetchAlumniStories()]);
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-12 font-sans text-gray-900 space-y-20">
@@ -103,7 +105,6 @@ export default async function Home() {
             View All Blogs
           </Link>
         </div>
-
       </AnimatedSection>
 
       <AnimatedSection className="py-20 bg-gray-100 text-center rounded-lg shadow-md">

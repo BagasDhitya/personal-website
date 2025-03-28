@@ -1,8 +1,8 @@
-import { ApiService } from "@/utils/apiService";
+import { BackendlessService } from "@/helpers/backendless.service";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-    const apiService = new ApiService();
+    const apiService = new BackendlessService();
     const { searchParams } = new URL(req.url);
 
     const search = searchParams.get("search")?.toLowerCase() || "";
