@@ -12,6 +12,7 @@ export class ApiService {
     }
 
     async fetchBlogs(limit: number, search?: string, category?: string): Promise<Blog[]> {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         try {
             const response = await this.api.get<Blog[]>("/blogs", {
                 params: {
@@ -28,6 +29,7 @@ export class ApiService {
     }
 
     async fetchBlogBySlug(slug: string): Promise<Blog | null> {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         try {
             const response = await this.api.get<Blog>(`/blogs`, {
                 params: { slugs: slug },
@@ -40,6 +42,7 @@ export class ApiService {
     }
 
     async fetchAlumniStories(): Promise<Alumni[]> {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         try {
             const response = await this.api.get<Alumni[]>("/alumni");
             return response.data;
