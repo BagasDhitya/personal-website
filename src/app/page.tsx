@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
 import clsx from "clsx";
 
 import { Alumni, Blog } from "@/utils/types";
@@ -15,21 +15,17 @@ const LoadingModal = dynamic(() => import("@/components/LoadingModal"), { ssr: t
 
 export default function Home() {
   const apiService = new ApiService();
-  const data = Promise.all([apiService.fetchBlogs(3), apiService.fetchAlumniStories()]);
+  const dataPromise = Promise.all([apiService.fetchBlogs(3), apiService.fetchAlumniStories()]);
 
   return (
-    <Suspense fallback={<LoadingModal promise={data} />}>
-      <Content />
+    <Suspense fallback={<LoadingModal promise={dataPromise} />}>
+      <Content dataPromise={dataPromise} />
     </Suspense>
   );
 }
 
-async function Content() {
-  const apiService = new ApiService();
-  const [blogs, alumniStories]: [Blog[], Alumni[]] = await Promise.all([
-    apiService.fetchBlogs(3),
-    apiService.fetchAlumniStories(),
-  ]);
+async function Content({ dataPromise }: { dataPromise: Promise<[Blog[], Alumni[]]> }) {
+  const [blogs, alumni] = await dataPromise;
 
   return (
     <div className={clsx(styles.container)}>
@@ -48,7 +44,7 @@ async function Content() {
         </p>
       </AnimatedSection>
 
-      <AnimatedSection className={clsx(styles.section, "bg-gray-100 rounded-lg shadow-md")}> 
+      <AnimatedSection className={clsx(styles.section, "bg-gray-100 rounded-lg shadow-md")}>
         <h2 className="text-4xl font-bold">Skills</h2>
         <div className={clsx(styles.cardContainer)}>
           {["Front-End", "Back-End", "DevOps & Tools"].map((title, i) => (
@@ -66,18 +62,22 @@ async function Content() {
         <h2 className="text-4xl font-bold">Latest Blog Posts</h2>
         <p className="text-lg mt-2 text-gray-600">Stay updated with the latest insights.</p>
         <div className={clsx(styles.cardContainer)}>
-          {blogs.length ? blogs.map((blog, i) => <BlogCard key={i} {...blog} />) : <p className="text-center mt-6">No articles found.</p>}
+          {blogs.length ? (
+            blogs.map((blog, i) => <BlogCard key={i} {...blog} />)
+          ) : (
+            <p className="text-center mt-6">No articles found.</p>
+          )}
         </div>
         <div className="mt-20">
-          <Link className={clsx("cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700")} href="/blogs">
+          <Link className="cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700" href="/blogs">
             View All Blogs
           </Link>
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className={clsx(styles.section, "bg-gray-100 rounded-lg shadow-md")}> 
+      <AnimatedSection className={clsx(styles.section, "bg-gray-100 rounded-lg shadow-md")}>
         <h2 className="text-4xl font-bold">Alumni Success Stories</h2>
-        <AlumniSwiper alumniStories={alumniStories} />
+        <AlumniSwiper alumniStories={alumni} />
       </AnimatedSection>
 
       <AnimatedSection className={clsx(styles.contact)}>
@@ -85,7 +85,12 @@ async function Content() {
         <p className="mt-4 text-lg">Feel free to reach out:</p>
         <div className="mt-6 space-y-2">
           <p className="text-lg">📧 Email: bagasdhityataufiqqi98@gmail.com</p>
-          <p className="text-lg">🔗 LinkedIn: <a href="https://www.linkedin.com/in/bagasdhityataufiqqi/" className="text-blue-600 hover:underline">Bagas Dhitya Taufiqqi</a></p>
+          <p className="text-lg">
+            🔗 LinkedIn:{" "}
+            <a href="https://www.linkedin.com/in/bagasdhityataufiqqi/" className="text-blue-600 hover:underline">
+              Bagas Dhitya Taufiqqi
+            </a>
+          </p>
         </div>
       </AnimatedSection>
     </div>

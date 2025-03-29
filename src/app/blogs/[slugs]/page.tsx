@@ -1,10 +1,18 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { ApiService } from "@/helpers/api.service";
 import clsx from "clsx";
 
-export async function generateMetadata({ params }: { params: { slugs: string } }): Promise<Metadata> {
+const LoadingModal = dynamic(() => import("@/components/LoadingModal"), { ssr: true });
+
+interface ContentProps {
+    params: { slugs: string };
+}
+
+export async function generateMetadata({ params }: ContentProps): Promise<Metadata> {
     const apiService = new ApiService();
     const blog = await apiService.fetchBlogBySlug(params.slugs);
 
@@ -21,11 +29,21 @@ export async function generateMetadata({ params }: { params: { slugs: string } }
     };
 }
 
-export default async function BlogDetail({ params }: { params: { slugs: string } }) {
+export default function BlogDetail({ params }: ContentProps) {
     const apiService = new ApiService();
     const { slugs } = params;
 
-    const blog = await apiService.fetchBlogBySlug(slugs);
+    const blogPromise = apiService.fetchBlogBySlug(slugs);
+
+    return (
+        <Suspense fallback={<LoadingModal promise={blogPromise} />}>
+            <Content blogPromise={blogPromise} />
+        </Suspense>
+    );
+}
+
+async function Content({ blogPromise }: { blogPromise: Promise<{ title: string; image: string; description: string } | null> }) {
+    const blog = await blogPromise;
 
     if (!blog) return notFound();
 
