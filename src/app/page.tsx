@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Alumni, Blog } from "@/utils/types";
 import { ApiService } from "@/helpers/api.service";
-import { Blog, Alumni } from "@/utils/types";
 
 import AnimatedSection from "@/components/AnimatedSection";
 import AlumniSwiper from "@/components/AlumniSwiper";
@@ -10,10 +10,7 @@ import BlogCard from "@/components/BlogCard";
 
 export default async function Home() {
   const apiService = new ApiService()
-  const [blogs, alumniStories]: [Blog[], Alumni[]] = await Promise.all([
-    apiService.fetchBlogs(3),
-    apiService.fetchAlumniStories(),
-  ]);
+  const [blogs, alumniStories]: [Blog[], Alumni[]] = await Promise.all([apiService.fetchBlogs(3), apiService.fetchAlumniStories()]);
 
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-12 font-sans text-gray-900 space-y-20">
@@ -36,11 +33,49 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection className="py-20 text-center">
+        <h2 className="text-4xl font-bold">About Me</h2>
+        <p className="mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
+          I am a passionate web developer with experience in building scalable applications.
+          I specialize in JavaScript, React, and backend development.
+        </p>
+      </AnimatedSection>
+
+      <AnimatedSection className="py-20 bg-gray-100 text-center rounded-lg shadow-md">
+        <h2 className="text-4xl font-bold">Skills</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 max-w-5xl mx-auto">
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Front-End</h3>
+            <p className="mt-2 text-gray-600">HTML, CSS, JavaScript, React, Angular</p>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">Back-End</h3>
+            <p className="mt-2 text-gray-600">Node.js, Express, Django, Ruby on Rails</p>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold">DevOps & Tools</h3>
+            <p className="mt-2 text-gray-600">Docker, Git, AWS, CI/CD</p>
+          </div>
+        </div>
+      </AnimatedSection>
+
+      <AnimatedSection className="py-20 text-center">
+        <h2 className="text-4xl font-bold">Portfolio</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6 max-w-5xl mx-auto">
+          {[1, 2, 3, 4, 5, 6].map((project) => (
+            <div key={project} className="p-6 bg-white rounded-lg shadow-md">
+              <h3 className="text-xl font-semibold">Project {project}</h3>
+              <p className="mt-2 text-gray-600">Description of project {project}.</p>
+            </div>
+          ))}
+        </div>
+      </AnimatedSection>
+
+      <AnimatedSection className="py-20 text-center">
         <h2 className="text-4xl font-bold">Latest Blog Posts</h2>
         <p className="text-lg mt-2 text-gray-600">Stay updated with the latest insights and tutorials.</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
           {blogs.length ? (
-            blogs.map((blog: Blog, key: number) => <BlogCard key={key} {...blog} />)
+            blogs.map((blog, key) => <BlogCard key={key} {...blog} />)
           ) : (
             <p className="text-center mt-6">No articles found.</p>
           )}
@@ -56,6 +91,23 @@ export default async function Home() {
         <h2 className="text-4xl font-bold">Alumni Success Stories</h2>
         <div className="mt-6">
           <AlumniSwiper alumniStories={alumniStories} />
+        </div>
+      </AnimatedSection>
+
+      <AnimatedSection className="py-20 text-center bg-gray-200 rounded-lg shadow-md">
+        <h2 className="text-4xl font-bold">Contact Me</h2>
+        <p className="mt-4 text-lg">Feel free to reach out:</p>
+        <div className="mt-6 space-y-2">
+          <p className="text-lg">📧 Email: bagasdhityataufiqqi98@gmail.com</p>
+          <p className="text-lg">
+            🔗 LinkedIn:{" "}
+            <a
+              href="https://www.linkedin.com/in/bagasdhityataufiqqi/"
+              className="text-blue-600 hover:underline"
+            >
+              Bagas Dhitya Taufiqqi
+            </a>
+          </p>
         </div>
       </AnimatedSection>
     </div>

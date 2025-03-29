@@ -1,5 +1,5 @@
 import { BackendlessService } from "@/helpers/backendless.service";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     const apiService = new BackendlessService();
@@ -13,19 +13,26 @@ export async function GET(req: NextRequest) {
     const response = await apiService.fetchData("Blog");
     const blogs = await response.json();
 
+    if (slug) {
+        const blog = blogs.find((blog: any) => blog.slugs === slug);
+
+        if (!blog) {
+            return new NextResponse(JSON.stringify({ message: "Blog not found" }), { status: 404 });
+        }
+
+        return NextResponse.json(blog);
+    }
+
     let filteredBlogs = blogs.filter((blog: any) => {
         const matchesSearch = search
-            ? blog.title.toLowerCase().includes(search) ||
-            blog.description.toLowerCase().includes(search)
+            ? blog.title.toLowerCase().includes(search) || blog.description.toLowerCase().includes(search)
             : true;
-
         const matchesCategory = category ? blog.category.toLowerCase() === category : true;
-        const matchesSlug = slug ? blog.slugs === slug : true;
 
-        return matchesSearch && matchesCategory && matchesSlug;
+        return matchesSearch && matchesCategory;
     });
 
     if (limit > 0) filteredBlogs = filteredBlogs.slice(0, limit);
 
-    return Response.json(filteredBlogs);
+    return NextResponse.json(filteredBlogs);
 }

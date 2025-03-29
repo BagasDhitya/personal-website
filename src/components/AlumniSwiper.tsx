@@ -9,31 +9,42 @@ import "swiper/css/navigation";
 
 import { Alumni } from "@/utils/types";
 
-
 interface AlumniSwiperProps {
     alumniStories: Alumni[];
 }
 
 export default function AlumniSwiper({ alumniStories }: AlumniSwiperProps) {
     return (
-        <Swiper
-            modules={[Autoplay, Pagination, Navigation]}
-            spaceBetween={20}
-            slidesPerView={1}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            navigation
-            className="w-full max-w-3xl mx-auto"
-        >
-            {alumniStories.map((alumni: Alumni, key: number) => (
-                <SwiperSlide key={key} className="flex justify-center">
-                    <div id={String(alumni.id)} className="p-6 bg-white rounded-lg shadow-md text-center w-full">
-                        <Image src={alumni.imageUrl} alt={alumni.name} width={600} height={400} className="rounded-lg h-40" objectFit="cover" />
-                        <h3 className="text-xl font-semibold">{alumni.name}</h3>
-                        <p className="mt-2 text-gray-600">{alumni.story}</p>
-                    </div>
-                </SwiperSlide>
-            ))}
-        </Swiper>
+        <div className="flex justify-center w-full py-10">
+            <Swiper
+                modules={[Autoplay, Pagination, Navigation]}
+                spaceBetween={30}
+                slidesPerView={1}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                pagination={{ clickable: true }}
+                navigation
+                className="w-full max-w-4xl"
+            >
+                {alumniStories.map((alumni: Alumni) => (
+                    <SwiperSlide key={alumni.id} className="flex justify-center items-center">
+                        <div className="p-12 bg-white rounded-2xl shadow-xl border border-gray-200 text-center w-full max-w-2xl mx-auto">
+                            <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-gray-300 shadow-md">
+                                <Image
+                                    src={alumni.imageUrl}
+                                    alt={alumni.name}
+                                    width={128}
+                                    height={128}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <h3 className="text-2xl font-bold mt-6 text-gray-900">{alumni.name}</h3>
+                            <p className="text-gray-600 text-lg mt-1">{alumni.className}</p>
+                            <p className="text-blue-600 font-medium text-lg">{alumni.company}</p>
+                            <p className="mt-4 text-gray-700 text-lg leading-relaxed px-4">{alumni.story}</p>
+                        </div>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        </div>
     );
 }

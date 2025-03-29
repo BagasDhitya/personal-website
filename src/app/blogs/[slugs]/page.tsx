@@ -1,37 +1,32 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Blog } from "@/utils/types";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Image from "next/image";
-import axios from "axios";
+import { ApiService } from "@/helpers/api.service";
 
-export default function BlogDetail() {
-    const { slugs } = useParams();
-    const [blog, setBlog] = useState<Blog | null>(null);
-    const [loading, setLoading] = useState(true);
+export async function generateMetadata({ params }: { params: { slugs: string } }): Promise<Metadata> {
+    const apiService = new ApiService();
+    const blog = await apiService.fetchBlogBySlug(params.slugs);
 
-    useEffect(() => {
-        async function fetchBlogDetail() {
-            try {
-                const response = await axios.get(`/api/blogs?slug=${slugs}`);
-                const data = response.data;
-                setBlog(data.length > 0 ? data[0] : null);
-            } catch (error) {
-                console.error("Error fetching blog:", error);
-                setBlog(null);
-            } finally {
-                setLoading(false);
-            }
-        }
+    if (!blog) {
+        return {
+            title: "Blog Not Found",
+            description: "The requested blog does not exist.",
+        };
+    }
 
-        if (slugs) {
-            fetchBlogDetail();
-        }
-    }, [slugs]);
+    return {
+        title: blog.title,
+        description: blog.description,
+    };
+}
 
-    if (loading) return <div className="text-center py-20 text-2xl">Loading...</div>;
-    if (!blog) return <div className="text-center py-20 text-2xl">Blog not found.</div>;
+export default async function BlogDetail({ params }: { params: { slugs: string } }) {
+    const apiService = new ApiService();
+    const { slugs } = params;
+
+    const blog = await apiService.fetchBlogBySlug(slugs);
+
+    if (!blog) return notFound();
 
     return (
         <div className="max-w-4xl mx-auto px-6 py-20">

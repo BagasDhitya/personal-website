@@ -13,6 +13,8 @@ export interface Alumni {
     name: string;
     story: string;
     imageUrl: string;
+    className: string;
+    company: string;
 }
 
 export interface CategoriesProps {
