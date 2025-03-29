@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
-import { Alumni, Blog } from "@/utils/types";
+import { Alumni, Blog, Hero, About } from "@/utils/types";
 import { ApiService } from "@/helpers/api.service";
 import AnimatedSection from "@/components/AnimatedSection";
 import AlumniSwiper from "@/components/AlumniSwiper";
@@ -15,7 +15,12 @@ const LoadingModal = dynamic(() => import("@/components/LoadingModal"), { ssr: t
 
 export default function Home() {
   const apiService = new ApiService();
-  const dataPromise = Promise.all([apiService.fetchBlogs(3), apiService.fetchAlumniStories()]);
+  const dataPromise = Promise.all([
+    apiService.fetchBlogs(3),
+    apiService.fetchAlumniStories(),
+    apiService.fetchHero(),
+    apiService.fetchAbout()
+  ]);
 
   return (
     <Suspense fallback={<LoadingModal promise={dataPromise} />}>
@@ -24,24 +29,26 @@ export default function Home() {
   );
 }
 
-async function Content({ dataPromise }: { dataPromise: Promise<[Blog[], Alumni[]]> }) {
-  const [blogs, alumni] = await dataPromise;
+async function Content({ dataPromise }: { dataPromise: Promise<[Blog[], Alumni[], Hero[], About[]]> }) {
+  const [blogs, alumni, hero, about] = await dataPromise;
 
   return (
     <div className={clsx(styles.container)}>
       <AnimatedSection className={clsx(styles.hero)}>
-        <h1 className={clsx(styles.title)}>Bagas Dhitya Taufiqqi</h1>
-        <h2 className={clsx(styles.subtitle)}>Full-Stack Web Developer</h2>
-        <Image src="/avatar.jpg" alt="Profile" width={160} height={160} className={clsx(styles.avatar)} />
-        <p className="mt-4 max-w-lg text-lg">Building scalable and high-performance web solutions.</p>
+        <h1 className={clsx(styles.title)}>{hero[0]?.title}</h1>
+        <h2 className={clsx(styles.subtitle)}>{hero[0]?.subtitle}</h2>
+        {hero[0].imageUrl ? (
+          <Image src={hero[0]?.imageUrl} alt="Profile" width={160} height={160} className={clsx(styles.avatar)} />
+        ) : (
+          <div className={'font-bold text-black'}>No Image</div>
+        )}
+        <p className="mt-4 max-w-lg text-lg">{hero[0]?.description}</p>
         <button className={clsx(styles.button)}>View Portfolio</button>
       </AnimatedSection>
 
       <AnimatedSection className={clsx(styles.section)}>
         <h2 className="text-4xl font-bold">About Me</h2>
-        <p className="mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
-          I specialize in JavaScript, React, and backend development.
-        </p>
+        <p className="mt-4 max-w-3xl mx-auto text-lg leading-relaxed">{about[0]?.description}</p>
       </AnimatedSection>
 
       <AnimatedSection className={clsx(styles.section, "bg-gray-100 rounded-lg shadow-md")}>
@@ -86,7 +93,7 @@ async function Content({ dataPromise }: { dataPromise: Promise<[Blog[], Alumni[]
         <div className="mt-6 space-y-2">
           <p className="text-lg">📧 Email: bagasdhityataufiqqi98@gmail.com</p>
           <p className="text-lg">
-            🔗 LinkedIn:{" "}
+            🔗 LinkedIn: {" "}
             <a href="https://www.linkedin.com/in/bagasdhityataufiqqi/" className="text-blue-600 hover:underline">
               Bagas Dhitya Taufiqqi
             </a>

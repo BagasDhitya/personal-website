@@ -51,4 +51,26 @@ export class ApiService {
             return [];
         }
     }
+
+    async fetchHero(): Promise<any> {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        try {
+            const response = await this.api.get("/hero");
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching hero section:", error);
+            return null;
+        }
+    }
+    
+    async fetchAbout(): Promise<any> {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        try {
+            const response = await this.api.get("/about");
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching about section:", error);
+            return null;
+        }
+    }
 }
