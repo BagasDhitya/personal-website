@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { ApiService } from "@/helpers/api.service";
+import clsx from "clsx";
 
 export async function generateMetadata({ params }: { params: { slugs: string } }): Promise<Metadata> {
     const apiService = new ApiService();
@@ -29,10 +30,16 @@ export default async function BlogDetail({ params }: { params: { slugs: string }
     if (!blog) return notFound();
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-20">
-            <h1 className="text-4xl font-bold">{blog.title}</h1>
-            <Image src={blog.image} alt={blog.title} width={800} height={500} className="rounded-lg my-6" />
-            <p className="text-lg text-gray-700">{blog.description}</p>
+        <div className={clsx("max-w-4xl mx-auto px-6 py-20")}>
+            <h1 className={clsx("text-4xl font-bold")}>{blog.title}</h1>
+            <Image
+                src={blog.image}
+                alt={blog.title}
+                width={800}
+                height={500}
+                className={clsx("rounded-lg my-6")}
+            />
+            <p className={clsx("text-lg text-gray-700")}>{blog.description}</p>
         </div>
     );
 }
